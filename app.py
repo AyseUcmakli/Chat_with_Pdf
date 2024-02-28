@@ -37,7 +37,7 @@ def get_vector_store(text_chunks):
     vector_store.save_local("faiss_index")
 
 
-
+#Konuşma zincirini oluşturur. Bu, kullanıcı sorularına cevap verebilen bir dil modeli içerir.
 def get_conversational_chain():
 
     prompt_template = """
@@ -57,7 +57,7 @@ def get_conversational_chain():
 
     return chain
 
-
+#Kullanıcının sorduğu soruya cevap verir.
 def user_input(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     
@@ -77,7 +77,8 @@ def user_input(user_question):
 
 
 
-
+#Streamlit uygulamasını başlatır. Kullanıcıya PDF dosyalarını yüklemesi için bir arayüz sunar 
+# ve kullanıcının soru sormasını sağlar.
 def main():
     st.set_page_config("Chat With Multiple PDF")
     st.header("Chat with Multiple PDF using Gemini💁")
