@@ -14,6 +14,7 @@ load_dotenv()
 os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
+#Yüklenen PDF dosyalarından metin çıkarır.
 def get_pdf_text(pdf_docs):
     text=""
     for pdf in pdf_docs:
@@ -22,14 +23,14 @@ def get_pdf_text(pdf_docs):
             text+= page.extract_text()
     return  text
 
-
+# Metni küçük parçalara böler.
 def get_text_chunks(text):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=10000, chunk_overlap=1000)
     chunks = text_splitter.split_text(text)
     return chunks
 
 
-
+#Metin parçalarını gömülü vektörler haline getirerek bir vektör deposu oluşturur.
 def get_vector_store(text_chunks):
     embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
@@ -57,7 +58,7 @@ def get_conversational_chain():
     return chain
 
 
-    def user_input(user_question):
+def user_input(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
     
     new_db = FAISS.load_local("faiss_index", embeddings)
@@ -72,13 +73,14 @@ def get_conversational_chain():
 
     print(response)
     st.write("Reply: ", response["output_text"])
+    
 
 
 
 
 def main():
-    st.set_page_config("Chat PDF")
-    st.header("Chat with PDF using Gemini💁")
+    st.set_page_config("Chat With Multiple PDF")
+    st.header("Chat with Multiple PDF using Gemini💁")
 
     user_question = st.text_input("Ask a Question from the PDF Files")
 
