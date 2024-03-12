@@ -58,6 +58,7 @@ def get_conversational_chain():
 
     return chain
 
+
 #Kullanıcının sorduğu soruya cevap verir.
 def user_input(user_question):
     embeddings = GoogleGenerativeAIEmbeddings(model = "models/embedding-001")
